@@ -1,0 +1,21 @@
+<ng-container *ngIf="isOpen">
+  <div class="opacity-75 fixed inset-0 z-40 bg-black"></div>
+  <div
+    class="justify-center items-start mt-12 flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none w-screen"
+    (click)="backGroundClick($event)"
+  >
+    <div class="relative my-6 mx-auto w-128">
+      <div class="relative group">
+        <div
+          class="absolute -inset-0.5 bg-gradient-to-r from-green-200 to-green-600 rounded-lg blur-lg opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-2000"
+        ></div>
+        <div
+          #contentsContainer
+          class="relative p-6 bg-black rounded-lg grid place-content-center"
+        >
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

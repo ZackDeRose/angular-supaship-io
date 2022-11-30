@@ -1,1 +1,39 @@
-<angular-supaship-nx-welcome></angular-supaship-nx-welcome>
+<nav
+  class="flex justify-between align-center max-w-screen-2xl mx-auto px-3 md:px-8 p-6 md:p-8 text-gray1 w-full"
+>
+  <a
+    class="flex justify-center items-center text-center invisible md:visible"
+    routerLink="/"
+  >
+    <img
+      id="logo"
+      class="hover:scale-125 transition hover:drop-shadow-[0_0_9px_rgba(34,197,94,0.9)] w-0 md:w-64 mt-4"
+      src="https://supaship.io/supaship_logo_with_text.svg"
+      alt="logo"
+    />
+  </a>
+
+  <ul class="flex justify-center items-center">
+    <li class="mx-2 md:mx-4 hover:scale-105 transition-transform">
+      <a
+        routerLink="/1"
+        class="font-sans text-xl font-bold leading-none text-gray2 gradient-slide"
+      >
+        message board
+      </a>
+    </li>
+    <li class="ml-2 mr-6 relative">
+      <ng-container *ngIf="user$ | async as user">
+        <!-- <pre>{{ user | json }}</pre> -->
+        <angular-supaship-login *ngIf="!user.user"></angular-supaship-login>
+        <angular-supaship-user-menu
+          *ngIf="user.user"
+        ></angular-supaship-user-menu>
+      </ng-container>
+    </li>
+  </ul>
+</nav>
+
+<!-- <h1 class="text-5xl text-blue-600">Tailwind Test</h1> -->
+
+<router-outlet></router-outlet>

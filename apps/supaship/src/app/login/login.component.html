@@ -1,0 +1,50 @@
+<div class="flex m-4 place-items-center">
+  <button
+    class="md:inline-block px-4 py-2 text-xl font-display text-black hover:text-white bg-white hover:bg-purple-600 drop-shadow-[6px_6px_0_black] hover:drop-shadow-[0_0_7px_rgba(168,85,247,0.5)] transition-all duration-300"
+    (click)="loginClick()"
+  >
+    login
+  </button>
+  <span class="p-2"> or </span>
+  <button
+    class="md:inline-block px-4 py-2 text-xl font-display text-black hover:text-white bg-white hover:bg-purple-600 drop-shadow-[6px_6px_0_black] hover:drop-shadow-[0_0_7px_rgba(168,85,247,0.5)] transition-all duration-300"
+    (click)="signUpClick()"
+  >
+    sign up
+  </button>
+</div>
+
+<angular-supaship-dialog #dialog [open]="!!loginType">
+  <h1>{{ loginType }}</h1>
+  <form (ngSubmit)="submit()">
+    <fieldset
+      [formGroup]="form"
+      class="grid grid-cols-1 place-items-center gap-4"
+    >
+      <label for="email" class="text-white text-xl font-display">Email</label>
+      <input
+        formControlName="email"
+        type="email"
+        name="email"
+        id="email"
+        class="text-2xl font-display font-normal rounded border-2 text-green-400 border-green-400 text-center drop-shadow-[0_0_9px_rgba(34,197,94,0.9)] bg-white"
+      />
+      <label for="password" class="text-white text-xl font-display"
+        >Password</label
+      >
+      <input
+        formControlName="password"
+        type="password"
+        id="password"
+        name="password"
+        class="text-2xl font-display font-normal rounded border-2 text-green-400 border-green-400 text-center drop-shadow-[0_0_9px_rgba(34,197,94,0.9)] bg-white"
+      />
+      <button
+        type="submit"
+        class="text-black text-xl font-display bg-green-500 w-full p-2 rounded"
+      >
+        Submit
+      </button>
+    </fieldset>
+  </form>
+</angular-supaship-dialog>
