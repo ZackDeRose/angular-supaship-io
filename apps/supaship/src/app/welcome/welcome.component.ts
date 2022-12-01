@@ -31,7 +31,7 @@ export class WelcomeComponent {
       username: this.control.value as string,
     });
     if (!error) {
-      this.router.navigateByUrl('/');
+      this.router.navigateByUrl('/1');
     } else {
       this.serverError = true;
     }

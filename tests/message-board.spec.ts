@@ -15,7 +15,7 @@ test.describe('Message Board', () => {
   test.beforeEach(setupE2eTest);
 
   test.beforeEach(async ({ page }) => {
-    page.goto('http://localhost:4200');
+    await page.goto('http://localhost:4200');
   });
 
   test.describe('not logged in', () => {
@@ -37,7 +37,7 @@ test.describe('Message Board', () => {
       const post = await createPost(otherUser, 'test post', 'test contents');
       await post.click();
       await createComment(otherUser, 'test comment');
-      page.goto('http://localhost:4200');
+      page.goto('http://localhost:4200/1');
       const messageBoardSignIn = page.locator(
         `[data-e2e="message-board-login"]`
       );
@@ -63,8 +63,8 @@ test.describe('Message Board', () => {
       const downvotes = page.locator(`[data-e2e="downvote"]`);
       await expect(downvotes).toHaveCount(2);
       const replyButton = page.locator(`button`, { hasText: 'Reply' });
-      await expect(replyButton).toHaveCount(1);
-      await expect(replyButton).toBeDisabled();
+      await expect(replyButton).toHaveCount(0);
+      // await expect(replyButton).toBeDisabled();
       for (let i = 0; i < 2; i++) {
         await expect(upvotes.nth(i)).toBeDisabled();
         await expect(downvotes.nth(i)).toBeDisabled();

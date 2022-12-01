@@ -13,6 +13,9 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 import { UserService } from './user.service';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { CreateCommentFormComponent } from './create-comment-form/create-comment-form.component';
+import { CommentComponent } from './comment/comment.component';
+import { UpVoteComponent } from './up-vote/up-vote.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +27,9 @@ import { WelcomeComponent } from './welcome/welcome.component';
     LoginComponent,
     DialogComponent,
     UserMenuComponent,
+    CreateCommentFormComponent,
+    CommentComponent,
+    UpVoteComponent,
   ],
   imports: [
     BrowserModule,

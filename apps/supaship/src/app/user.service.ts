@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from '@supabase/supabase-js';
-import {
-  BehaviorSubject,
-  bufferCount,
-  filter,
-  Observable,
-  Observer,
-  share,
-} from 'rxjs';
+import { BehaviorSubject, bufferCount, filter, Observable } from 'rxjs';
 import { supaClient } from './supa-client';
 
 export interface UserData {
@@ -16,6 +9,7 @@ export interface UserData {
   doneCheckForProfile: boolean;
   user?: User;
   profile?: { username?: string };
+  votes?: Record<string, 'up' | 'down' | undefined>;
 }
 
 @Injectable({
@@ -29,6 +23,11 @@ export class UserService {
     doneCheckForProfile: false,
   });
   user$: Observable<UserData> = this.#user$.asObservable();
+  // #userVotes$ = new BehaviorSubject<Record<string, 'up' | 'down' | undefined>>(
+  //   {}
+  // );
+  // userVotes$: Observable<Record<string, 'up' | 'down' | undefined>> =
+  //   this.#userVotes$.asObservable();
 
   constructor(private router: Router) {
     supaClient.auth.getUser().then(({ data: { user }, error }) => {
@@ -39,6 +38,7 @@ export class UserService {
           initialized: true,
           doneCheckForProfile: false,
         });
+        this.refetchUserVotes();
       } else {
         this.#user$.next({
           user: undefined,
@@ -107,5 +107,25 @@ export class UserService {
             }
           });
       });
+    // this.refetchUserVotes();
+  }
+
+  async refetchUserVotes() {
+    const { data } = await supaClient
+      .from('post_votes')
+      .select('*')
+      .eq('user_id', this.#user$.value.user?.id);
+
+    if (!data) {
+      return;
+    }
+    const votes = data.reduce((acc, vote) => {
+      acc[vote.post_id] = vote.vote_type as 'up' | 'down';
+      return acc;
+    }, {} as Record<string, 'up' | 'down' | undefined>);
+    this.#user$.next({
+      ...this.#user$.value,
+      votes,
+    });
   }
 }

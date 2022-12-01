@@ -1,1 +1,37 @@
-<p>post-detail works!</p>
+<ng-container *ngIf="postData$ | async as postData">
+  <ng-container *ngIf="userService.user$ | async as userData">
+    <div class="flex flex-col place-content-center">
+      <div class="flex text-white ml-4 my-4 border-l-2 rounded grow">
+        <!-- <div class="flex flex-col bg-gray-800 p-2 h-full rounded"></div> -->
+        <angular-supaship-up-vote
+          *ngIf="postData.post"
+          [post]="postData.post"
+          (voteCast)="observedCommentSubmitted()"
+        ></angular-supaship-up-vote>
+
+        <div class="grid m-2 w-full">
+          <p>Posted By {{ postData.post?.author_name }}</p>
+          <h3 class="text-2xl">{{ postData.post?.title }}</h3>
+          <div
+            class="font-sans bg-gray-600 rounded p-4 m-4"
+            data-e2e="post-content"
+          >
+            {{ postData.post?.content }}
+          </div>
+          <angular-supaship-create-comment-form
+            *ngIf="postData.post && userData.user"
+            [postCommentingOn]="postData.post"
+            [allowCancel]="false"
+            (commentSubmitted)="observedCommentSubmitted()"
+          ></angular-supaship-create-comment-form>
+          <angular-supaship-comment
+            *ngFor="let comment of postData.post?.comments"
+            [comment]="comment"
+            (commentSubmitted)="observedCommentSubmitted()"
+          ></angular-supaship-comment>
+        </div>
+      </div>
+    </div>
+    <pre>{{ postData | json }}</pre>
+  </ng-container>
+</ng-container>

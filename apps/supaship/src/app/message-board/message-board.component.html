@@ -1,6 +1,10 @@
-<h2>MessageBoard</h2>
+<h2>Message Board</h2>
 
-<h3 class="flex-auto" *ngIf="(userService.user$ | async)?.user == null">
+<h3
+  class="flex-auto"
+  *ngIf="(userService.user$ | async)?.user == null"
+  data-e2e="message-board-login"
+>
   Yo dawg, you gotta
   <angular-supaship-login></angular-supaship-login>
   to join the conversation

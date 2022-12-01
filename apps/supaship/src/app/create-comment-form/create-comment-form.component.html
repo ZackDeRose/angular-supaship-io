@@ -1,0 +1,29 @@
+<ng-container *ngIf="userService.user$ | async as userData">
+  <form
+    class="rounded border-2 p-4 ml-4 flex flex-col justify-start gap-4 mb-8"
+    (ngSubmit)="submitComment(userData)"
+    data-e2e="create-comment-form"
+  >
+    <textarea
+      class="text-gray-800 p-4 rounded h-24"
+      [formControl]="form"
+      name="comment"
+      placeholder="Your comment here...."
+    ></textarea>
+    <div class="flex">
+      <button
+        class="bg-green-400 rounded font-display text-lg p-2"
+        type="submit"
+      >
+        Submit
+      </button>
+      <button
+        *ngIf="allowCancel"
+        (click)="cancel.emit(); form.reset()"
+        type="button"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</ng-container>

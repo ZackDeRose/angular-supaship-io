@@ -1,0 +1,48 @@
+<ng-container *ngIf="userService.user$ | async as userData">
+  <ng-container *ngIf="filled$ | async as filled">
+    <button
+      [disabled]="!userData.user"
+      (click)="voteClick('up', userData.user?.id || '')"
+      data-e2e="upvote"
+      [attr.data-filled]="filled === 'up'"
+    >
+      <svg
+        [class.fill-green-400]="filled === 'up'"
+        [class.glow]="filled === 'up'"
+        [class.fill-white]="filled !== 'up'"
+        [class.opacity-50]="!userData.user"
+        width="24px"
+        height="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"
+        />
+      </svg>
+    </button>
+    <p class="text-center" data-e2e="upvote-count">{{ post.score }}</p>
+    <button
+      [disabled]="!userData.user"
+      (click)="voteClick('down', userData.user?.id || '')"
+      data-e2e="downvote"
+      [attr.data-filled]="filled === 'down'"
+    >
+      <svg
+        class="origin-center rotate-180"
+        [class.fill-red-400]="filled === 'down'"
+        [class.glow]="filled === 'down'"
+        [class.fill-white]="filled !== 'down'"
+        [class.opacity-50]="!userData.user"
+        width="24px"
+        height="24px"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.781 2.375c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10zM15 12h-1v8h-4v-8H6.081L12 4.601 17.919 12H15z"
+        />
+      </svg>
+    </button>
+  </ng-container>
+</ng-container>

@@ -1,0 +1,42 @@
+<ng-container *ngIf="userService.user$ | async as userData">
+  <div
+    class="flex bg-grey1 text-white my-4 ml-4 border-l-2 rounded"
+    [attr.data-e2e]="'comment-' + comment.id"
+  >
+    <div class="flex w-full justify-start grow">
+      <!-- <div class="flex flex-col grow-0 bg-gray-800 p-2 h-full rounded"></div> -->
+      <angular-supaship-up-vote
+        class="flex-none grid grid-cols-1 place-content-center bg-gray-800 p-2 mr-4"
+        [post]="comment"
+        (voteCast)="commentSubmitted.emit()"
+      ></angular-supaship-up-vote>
+      <div class="grid grid-cols-1 ml-2 my-2 w-full">
+        <p>{{ comment.author_name }}</p>
+        <div class="bg-gray-600 rounded p-4 m-4" data-e2e="comment-content">
+          <p *ngFor="let paragraph of comment.content.split('\n')">
+            {{ paragraph }}
+          </p>
+        </div>
+        <button
+          *ngIf="!isCommenting && userData.user"
+          (click)="isCommenting = true"
+        >
+          Reply
+        </button>
+        <angular-supaship-create-comment-form
+          *ngIf="isCommenting && userData.user"
+          [postCommentingOn]="comment"
+          (commentSubmitted)="commentSubmitted.emit()"
+          (cancel)="isCommenting = false"
+        >
+        </angular-supaship-create-comment-form>
+        <p>{{ comment.id }}</p>
+        <angular-supaship-comment
+          *ngFor="let comment of comment.comments"
+          [comment]="comment"
+          (commentSubmitted)="commentSubmitted.emit()"
+        ></angular-supaship-comment>
+      </div>
+    </div>
+  </div>
+</ng-container>

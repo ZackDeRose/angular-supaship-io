@@ -1,1 +1,39 @@
-<p>all-posts works!</p>
+<ng-container *ngIf="userService.user$ | async as userData">
+  <form
+    *ngIf="!!userData.user"
+    class="rounded border-2 p-4 ml-4 flex flex-col justify-start gap-4 mb-8"
+    [formGroup]="newPostForm"
+    (ngSubmit)="submitNewPost(userData)"
+    data-e2e="create-post-form"
+  >
+    <input
+      class="text-gray-800 p-2 rounded text-xl"
+      formControlName="title"
+      name="title"
+      placeholder="Post Title"
+    />
+    <textarea
+      class="text-gray-800 p-4 rounded h-24"
+      formControlName="contents"
+      name="contents"
+      placeholder="Post Contents"
+    ></textarea>
+    <button class="bg-green-400 rounded font-display text-lg p-2" type="submit">
+      Submit
+    </button>
+  </form>
+
+  <div
+    *ngFor="let post of allPosts$ | async"
+    class="flex text-white m-4 border-2 rounded"
+  >
+    <angular-supaship-up-vote
+      [post]="post"
+      (voteCast)="fetchEvents.next()"
+    ></angular-supaship-up-vote>
+    <a [routerLink]="'/post/' + post.id" class="flex-auto">
+      <p class="mt-4">Posted By {{ post.username }}</p>
+      <h3 class="text-2xl">{{ post.title }}</h3>
+    </a>
+  </div>
+</ng-container>
